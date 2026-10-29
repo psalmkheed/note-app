@@ -68,11 +68,11 @@ const NoteDetailsPage = () => {
   }
   if (loading) {
     return (
-      <div className="min-h-screen bg-base-200 flex items-center justify-center"><LoaderIcon className="animate-spin w-10 h-10" /></div>
+      <div className="min-h-screen bg-base-200 flex items-center justify-center gap-1"><LoaderIcon className="animate-spin w-10 h-10" /> <span className="">Loading</span></div>
     )
   }
   return (
-    <div className="min-h-screen bg-base-200">
+    <div className="min-h-screen">
       <div className="max-w-2xl mx-auto">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-between mb-6">

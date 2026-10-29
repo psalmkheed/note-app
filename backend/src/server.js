@@ -22,6 +22,15 @@ app.use(rateLimiter);
 
 app.use("/api/notes", noteRoutes);
 
+
+if(process.env.NODE_ENV ==="production"){
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+app.get("/{*path}", (req, res)=>{
+    res.sendFile(path.join(__dirname, "../frontend","dist","index.html"))
+})
+}
+
 app.use((err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
@@ -34,14 +43,6 @@ app.use((err, req, res, next) => {
         message: "Internal server error"
     });
 });
-
-if(process.env.NODE_ENV ==="production"){
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-app.get("/{*path}", (req, res)=>{
-    res.sendFile(path.join(__dirname, "../frontend","dist","index.html"))
-})
-}
 
 
 

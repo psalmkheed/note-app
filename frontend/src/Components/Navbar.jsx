@@ -6,7 +6,7 @@ const Navbar = () => {
                   <div className="mx-auto max-w-6xl p-4">
                         <div className="flex items-center justify-between">
                               <h1 className="text-3xl font-bold font-mono tracking-tight text-primary">MyNoteApp</h1>
-                              <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-2">
                                     <Link to={"/create"} className="btn btn-primary">
                                           <PlusIcon className='size-5'/>
                                           <span className='ml-2'>New Note</span>
