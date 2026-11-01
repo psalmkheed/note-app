@@ -4,6 +4,7 @@ import path from "path"
 
 import connectDB from './config/db.js';
 import noteRoutes from "./routes/note.js"
+import userRoutes from "./routes/user.js"
 import rateLimiter from './middleware/rateLimiter.js';
 import cors from 'cors'
 
@@ -21,6 +22,7 @@ app.use(cors())
 app.use(rateLimiter);
 
 app.use("/api/notes", noteRoutes);
+app.use("/api/users", userRoutes);
 
 
 if(process.env.NODE_ENV ==="production"){
@@ -30,21 +32,6 @@ app.get("/{*path}", (req, res)=>{
     res.sendFile(path.join(__dirname, "../frontend","dist","index.html"))
 })
 }
-
-app.use((err, req, res, next) => {
-    if (res.headersSent) {
-        return next(err);
-    }
-
-    console.error(err);
-
-    return res.status(500).json({
-        success: false,
-        message: "Internal server error"
-    });
-});
-
-
 
 connectDB().then(() =>{
       app.listen(PORT, () => {

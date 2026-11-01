@@ -1,8 +1,9 @@
 import { ArrowLeftIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import api from "../lib/axios";
+import { useEffect } from "react";
 
 const CreatePage = () => {
   const [title, setTitle] = useState("");
@@ -10,6 +11,8 @@ const CreatePage = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate()
+
+  const { id } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,14 +25,14 @@ const CreatePage = () => {
     setLoading(true)
 
     try {
-      await api.post("/notes", {
+      await api.post(`/notes/${id}`, {
         title,
         content
       })
 
       toast.success("Note created successfully");
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log("Error creating note", error)
 
@@ -51,7 +54,7 @@ const CreatePage = () => {
     <div className="min-h-screen bg-base-200">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
-          <Link to={"/"} className="btn btn-ghost mb-6">
+          <Link to={"/dashboard"} className="btn btn-ghost mb-6">
             <ArrowLeftIcon className="size-5" />
             Back to Notes
           </Link>

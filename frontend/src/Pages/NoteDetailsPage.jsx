@@ -21,7 +21,6 @@ const NoteDetailsPage = () => {
       try {
         const res = await api.get(`/notes/${id}`);
         setNote(res.data.note);
-        // console.log(res.data.note)
       } catch (error) {
         console.log("Error fetching note", error);
         toast.error("Failed to fetch the note")
@@ -41,7 +40,7 @@ const NoteDetailsPage = () => {
     try {
       await api.delete(`/notes/${id}`);
       toast.success("Note deleted successfully");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log("Error deleting note", error);
       toast.error("Failed to delete note");
@@ -58,7 +57,7 @@ const NoteDetailsPage = () => {
     try {
       await api.put(`/notes/${id}`, note)
       toast.success("Note Updated successfully")
-      navigate("/")
+      navigate("/dashboard")
     } catch (error) {
       console.log("Error updating note", error);
       toast.error("Failed to update the note")
@@ -76,7 +75,7 @@ const NoteDetailsPage = () => {
       <div className="max-w-2xl mx-auto">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-between mb-6">
-            <Link to="/" className="btn btn-ghost">
+            <Link to="/dashboard" className="btn btn-ghost">
               <ArrowLeftIcon className="size-5" />
             </Link>
             <button className="btn btn-error btn-outline" onClick={handleDelete} >

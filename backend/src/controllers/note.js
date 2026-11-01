@@ -1,10 +1,12 @@
 import Note from '../models/Note.js';
 import invalidMongooseId from '../utils/invalidMongooseId.js'
+import User from '../models/User.js'
 
 class NoteController
 {
       async createNote(req, res) {
             try {
+                  
                   const { title, content } = req.body;
                   if(Object.keys(req.body).length === 0) {
                         return res.status(400).json({
@@ -20,14 +22,31 @@ class NoteController
                         })
                   }
 
+                  const user = req.user;
+
+                  if (!user) {
+                        return res.status(404).json({
+                              message: "User not found",
+                              status: "error"
+                        });
+                  }
+
                   const note = await Note.create({
-                        title, content
+                        title, 
+                        content,
+                        user: user._id
                   })
+
+                  user.notes.push(note._id);
+                  await user.save();
+
                   return res.status(201).json({
                         success: true,
                         message: "Note created successfully",
                         note
                   })
+
+                  
 
             } catch(error){
                   return res.status(500).json({
@@ -62,13 +81,38 @@ class NoteController
             }
       }
 
+      async getUserNotes(req, res) {
+    try {
+        const notes = await Note.find({
+            user: req.user._id
+        }).sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            message: "User notes retrieved successfully",
+            note: notes
+        });
+
+    } catch (error) {
+        console.error("Fetch user notes error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+}
+
       async getNoteById(req, res){
             try {
 
                   const { id } = req.params;
 
-                  if(invalidMongooseId(res, id)){
-                        return;
+                   if (invalidMongooseId(id)) {
+                        return res.status(400).json({
+                              success: false,
+                              message: "Invalid note ID"
+                        });
                   }
 
                   const note = await Note.findById(id);
@@ -97,8 +141,11 @@ class NoteController
             try {
                   const { id } = req.params;
 
-                  if(invalidMongooseId(res, id)){
-                        return;
+                   if (invalidMongooseId(id)) {
+                        return res.status(400).json({
+                              success: false,
+                              message: "Invalid note ID"
+                        });
                   }
 
                   const { title, content } = req.body;
@@ -127,34 +174,56 @@ class NoteController
                   })
             }
       }
+
       async deleteNote(req, res) {
             try {
-                  const { id } = req.params;
+            const { id } = req.params;
 
-                  if(invalidMongooseId(res, id)){
-                        return;
-                  }
-
-                  const note = await Note.findByIdAndDelete(id);
-
-                  if(!note){
-                        return res.status(404).json({
-                              success: false,
-                              message: "Note not found"
-                        })
-                  }
-                  return res.status(200).json({
-                        success: true,
-                        message: "Note deleted successfully"
-                  })
-
-            } catch(error){
-                  res.status(500).json({
-                        message: "Internal server error",
-                        error: error.message
-                  })
+            if (invalidMongooseId(id)) {
+                  return res.status(400).json({
+                        success: false,
+                        message: "Invalid note ID"
+                  });
             }
-      }
+
+
+            const note = await Note.findOne({
+                  _id: id,
+                  user: req.user._id
+            });
+
+            if (!note) {
+                  return res.status(404).json({
+                        success: false,
+                        message: "Note not found"
+                  });
+            }
+
+            await Note.findByIdAndDelete(id);
+
+            await User.findByIdAndUpdate(
+                  req.user._id,
+                  {
+                        $pull: { notes: note._id }
+                  }
+            );
+
+            return res.status(200).json({
+                  success: true,
+                  message: "Note deleted successfully"
+            });
+
+            } catch (error) {
+            console.error("Delete note error:", error);
+
+            return res.status(500).json({
+                  success: false,
+                  message: "Internal server error"
+            });
+            }
+
+}
+
 }
 
 export default new NoteController;
