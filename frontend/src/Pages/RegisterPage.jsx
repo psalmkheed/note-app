@@ -67,11 +67,11 @@ const RegisterPage = () => {
                                           <NotebookIcon className="size-8 text-primary" />
                                     </div>
                                     <h2 className="card-title text-success text-2xl font-mono">Create Account</h2>
-                                    <p className="text-base-content text-sm">Login to access your dashboard</p>
+                                    <p className="text-base-content text-sm font-mono">Your new digital notebook awaits..</p>
                               </div>
                               <form onSubmit={handleSubmit}>
                                     <div className="flex flex-col gap-2 mb-4">
-                                          <label className="label">
+                                          <label className="label" htmlFor="fullname">
                                                 <span className="label-text">
                                                       Fullname
                                                 </span>
@@ -81,10 +81,11 @@ const RegisterPage = () => {
                                                 className="input input-bordered w-full"
                                                 value={formData.fullname}
                                                 onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+                                                id="fullname"
                                           />
                                     </div>
                                     <div className="flex flex-col gap-2 mb-4">
-                                          <label className="label">
+                                          <label className="label" htmlFor="username">
                                                 <span className="label-text">
                                                       Username
                                                 </span>
@@ -94,10 +95,11 @@ const RegisterPage = () => {
                                                 className="input input-bordered w-full"
                                                 value={formData.username}
                                                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                                                id="username"
                                           />
                                     </div>
                                     <div className="flex flex-col gap-2 mb-4 w-full">
-                                          <label className="label">
+                                          <label className="label" htmlFor="password">
                                                 <span className="label-text">
                                                       Password
                                                 </span>
@@ -107,6 +109,7 @@ const RegisterPage = () => {
                                                 className="input input-bordered w-full"
                                                 value={formData.password}
                                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                                id="password"
                                           />
                                     </div>
 

@@ -73,7 +73,7 @@ const HomePage = () => {
           <div className="grid items-center gap-16 lg:grid-cols-2">
 
             {/* Hero content */}
-            <div className="max-w-2xl">
+            <div className="max-w-2xl" id="hero">
 
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm text-primary">
                 <Sparkles size={16} />
