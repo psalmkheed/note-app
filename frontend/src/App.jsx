@@ -5,8 +5,8 @@ import NoteDetailsPage from "./Pages/NoteDetailsPage"
 import LoginPage from "./Pages/LoginPage"
 import RegisterPage from "./Pages/RegisterPage"
 import Dashboard from "./Pages/Dashboard"
-import ProtectedRoute from "./components/ProtectedRoute";
-import GuestRoute from "./components/GuestRoute";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import GuestRoute from "./Components/GuestRoute";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/register" element={<RegisterPage />} />
         </Route>
-        
+
         <Route element={<ProtectedRoute/>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/create/:id" element={<CreatePage />} />
