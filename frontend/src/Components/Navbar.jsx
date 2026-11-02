@@ -6,9 +6,9 @@ const Navbar = () => {
       const id  = localStorage.getItem("userId") || "{}";
 
       const navigate = useNavigate()
-
       const location = useLocation();
 
+      // Logout button handler
       const handleLogOut = async (e) => {
             e.preventDefault();
 
@@ -30,13 +30,13 @@ const Navbar = () => {
             <header className="bg-base-300 border-b border-base-content/10 sticky z-100 top-0">
                   <div className="mx-auto max-w-6xl p-4">
                         <div className="flex items-center justify-between">
-                              <Link to={"/"} className="text-3xl font-bold font-mono tracking-tight text-primary">MyNoteApp</Link> {location.pathname === "/" ? <a href="#hero" className="btn btn-primary text-base-100 font-mono">Get Started </a>
+                              <Link to={"/"} className="md:text-3xl text-2xl font-bold font-mono tracking-tight text-primary">MyNoteApp</Link> {location.pathname === "/" ? <a href="#hero" className="btn btn-primary text-base-100 font-mono">Get Started </a>
                                : 
                               location.pathname === '/dashboard' ?
                                     <div className="flex items-center gap-2">
                                           <Link to={`/dashboard/create/${id}`} className="btn btn-primary">
                                                 <PlusIcon className='size-5' />
-                                                <span className='ml-2'>New Note</span>
+                                                <span className='md:block hidden'>New Note</span>
                                           </Link>
                                           <button className="btn btn-error btn-outline" onClick={handleLogOut}>
                                                 <LogOut className="size-5"/>
